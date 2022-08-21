@@ -6,11 +6,13 @@ import { IResponse, Match } from "./types";
 export interface matchState {
   matchList: Match[] | null;
   status: "idle" | "loading" | "failed";
+  error: any;
 }
 
 const initialState: matchState = {
   matchList: null,
   status: "idle",
+  error: null,
 };
 
 export const getMatchAsync = createAsyncThunk("match/getMatch", async () => {
@@ -35,8 +37,9 @@ export const matchSlice = createSlice({
           state.matchList = action.payload.matches;
         }
       )
-      .addCase(getMatchAsync.rejected, (state) => {
+      .addCase(getMatchAsync.rejected, (state, action) => {
         state.status = "failed";
+        state.error = action.payload;
       });
   },
 });

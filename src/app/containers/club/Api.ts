@@ -5,5 +5,9 @@ export function fetchMatch() {
       method: "GET",
       headers: {},
     }
-  ).then((response) => response.json());
+  )
+    .then((response) => response.json())
+    .catch((error) => {
+      throw new Error(error);
+    });
 }
