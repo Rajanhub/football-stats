@@ -50,6 +50,25 @@ table {
   //border-radius: 10px;
   font-size: 1.4rem;
   //overflow-x: scroll;
+
+  .club {
+    display: flex;
+    align-items: center;
+    //justify-content: center;
+    img {
+      height: 50px;
+      width: 50px;
+      border-radius: 50%;
+      margin-right: 20px;
+    }
+
+    .title {
+      &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+  }
 }
 
 th,
@@ -84,8 +103,41 @@ thead {
     }
   }
 }
+.club__stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  //margin: 0 1px;
+  .box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 4rem;
+    width: 4rem;
+    border-radius: 50%;
+    &--l {
+      background-color: red;
+      color: white;
+    }
+    &--w {
+      background-color: green;
+      color: white;
+    }
+    &--d {
+      background-color: grey;
+      color: white;
+    }
+    .stats {
+      font-size: 1.6rem;
+      font-height: 1.5rem;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+  }
+}
 
 //modal
+
 .modal {
   position: fixed;
   min-height: 50rem;
@@ -125,4 +177,58 @@ thead {
   z-index: 1000;
 
   background-color: rgba(0, 0, 0, 0.7);
+}
+
+//club details
+.club_details {
+  padding: 0 5rem;
+  display: flex;
+  justify-content: center;
+
+  .left {
+    display: flex;
+    flex-direction: column;
+    flex: 50%;
+    align-items: center;
+    justify-content: center;
+    img {
+      width: 26rem;
+      height: 25rem;
+    }
+    .club_name {
+      font-size: 2rem;
+      font-weight: 600;
+    }
+  }
+  .right {
+    flex: 50%;
+    .card {
+      margin-top: 4rem;
+      border: 1px solid black;
+      height: 350px;
+      border-radius: 5px;
+      padding: 10px;
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding-left: 7rem;
+      .card_element {
+        display: flex;
+        flex-direction: column;
+
+        .card_title {
+          font-weight: 600;
+          text-transform: capitalize;
+          font-size: 2rem;
+        }
+        .card_value {
+          font-weight: 600;
+          text-transform: capitalize;
+          font-size: 4rem;
+          padding: 5px;
+        }
+      }
+    }
+  }
 }

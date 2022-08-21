@@ -43,7 +43,12 @@ export function createData(name: string, match: Match[]) {
         ga = own.score.ft[anotherteam] * 1;
         gd = gf - ga;
         points = !!won ? 3 : !!drawn ? 1 : 0;
-        !!won ? status.push("w") : !!lost ? status.push("l") : status.push("d");
+        if (status.length !== 5)
+          !!won
+            ? status.push("w")
+            : !!lost
+            ? status.push("l")
+            : status.push("d");
       }
 
       const newValue: any = {

@@ -14,3 +14,16 @@ export interface Match {
 export interface Score {
   ft: number[];
 }
+
+export interface Club {
+  club: string;
+  played: number;
+  won: number;
+  drawn: number;
+  lost: number;
+  gf: number;
+  ga: number;
+  gd: number;
+  points: number;
+  forms: any[];
+}

@@ -4,15 +4,30 @@ import { useAppDispatch, useAppSelector } from "app/hooks";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import ClubDetail from "./clubdetails";
 import { createData, mapbyClubname } from "./helper";
 import { getMatchAsync, selectMatchList } from "./slice";
 import { Match } from "./types";
+
+const initialData = {
+  club: "",
+  played: 0,
+  won: 0,
+  drawn: 0,
+  lost: 0,
+  gf: 0,
+  ga: 0,
+  gd: 0,
+  points: 0,
+  forms: [],
+};
 
 export default function Club() {
   const dispatch = useAppDispatch();
   const matchList = useAppSelector(selectMatchList);
 
   const [dataList, setDataList] = useState<any>([]);
+  const [clubData, setClubData] = useState(initialData);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   useEffect(() => {
@@ -31,7 +46,8 @@ export default function Club() {
   }, [matchList]);
 
   const handleClick = (data: any) => {
-    setIsOpen((isOpen) => !isOpen);
+    setClubData(data);
+    setIsOpen(true);
   };
   const data = React.useMemo(
     () => dataList,
@@ -55,8 +71,13 @@ export default function Club() {
         accessor: (value, id) => {
           return (
             <div className="club">
-              {/* //image */}
-              <span onClick={(e) => handleClick(value)}>{value.club}</span>
+              <img
+                src="https://2.bp.blogspot.com/-3-ZCGwpHf2E/T2ndazKevtI/AAAAAAAAAv8/LCJmK13t48c/s1600/Manchester+United.png"
+                className="image"
+              />
+              <span className="title" onClick={(e) => handleClick(value)}>
+                {value.club}
+              </span>
             </div>
           );
         },
@@ -97,7 +118,15 @@ export default function Club() {
         id: "forms",
         Header: "Forms",
         accessor: (value: any, id: any) => {
-          return <div>kk</div>;
+          return (
+            <div className="club__stats">
+              {value.forms.map((el: any) => (
+                <div className={`box box--${el}`}>
+                  <div className={`stats`}>{el}</div>
+                </div>
+              ))}
+            </div>
+          );
         },
       },
     ],
@@ -107,7 +136,7 @@ export default function Club() {
   return (
     <div>
       <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-        hello
+        <ClubDetail data={clubData} />
       </Modal>
       <Table data={data} columns={columns} />
     </div>

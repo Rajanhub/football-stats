@@ -29,6 +29,8 @@ export const matchSlice = createSlice({
     builder
       .addCase(getMatchAsync.pending, (state) => {
         state.status = "loading";
+        state.error = null;
+        state.matchList = null;
       })
       .addCase(
         getMatchAsync.fulfilled,
@@ -39,7 +41,7 @@ export const matchSlice = createSlice({
       )
       .addCase(getMatchAsync.rejected, (state, action) => {
         state.status = "failed";
-        state.error = action.payload;
+        state.error = "Error in feching data";
       });
   },
 });
@@ -47,5 +49,6 @@ export const matchSlice = createSlice({
 export const {} = matchSlice.actions;
 export const selectMatchList = (state: RootState) => state.match.matchList;
 export const selectstatus = (state: RootState) => state.match.status;
+export const selectError = (state: RootState) => state.match.status;
 
 export default matchSlice.reducer;
