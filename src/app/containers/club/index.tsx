@@ -3,17 +3,16 @@ import Table from "app/components/Table";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import ClubDetail from "./clubdetails";
-import { createData, mapbyClubname } from "./helper";
+import { mapbyClubname } from "./helper";
 import {
   getMatchAsync,
   selectError,
   selectMatchList,
   selectstatus,
 } from "./slice";
-import { Match } from "./types";
+import { Club as ClubTypes, Match } from "./types";
 
 const initialData = {
   club: "",
@@ -45,15 +44,14 @@ export default function Club() {
   useEffect(() => {
     toast.error(error);
   }, [error]);
+
   useEffect(() => {
     if (!matchList) return;
     const clubCategory = mapbyClubname(matchList);
-    const clubdata = [];
-    for (const [key, value] of Object.entries(clubCategory)) {
-      const clubStats = createData(key, value as Match[]);
-      clubdata.push(clubStats);
-    }
-    setDataList(clubdata.sort((a, b) => b.points - a.points));
+    const clubData = Object.values(clubCategory).sort(
+      (a: any, b: any) => b.points - a.points
+    );
+    setDataList(clubData);
   }, [matchList]);
 
   const handleClick = (data: any) => {
@@ -132,8 +130,8 @@ export default function Club() {
         accessor: (value: any, id: any) => {
           return (
             <div className="club__stats">
-              {value.forms.map((el: any) => (
-                <div className={`box box--${el}`}>
+              {value.forms.map((el: any, index: number) => (
+                <div key={`${el}${index}`} className={`box box--${el}`}>
                   <div className={`stats`}>{el}</div>
                 </div>
               ))}
