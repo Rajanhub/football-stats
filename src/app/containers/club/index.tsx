@@ -4,9 +4,15 @@ import { useAppDispatch, useAppSelector } from "app/hooks";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import ClubDetail from "./clubdetails";
 import { createData, mapbyClubname } from "./helper";
-import { getMatchAsync, selectMatchList } from "./slice";
+import {
+  getMatchAsync,
+  selectError,
+  selectMatchList,
+  selectstatus,
+} from "./slice";
 import { Match } from "./types";
 
 const initialData = {
@@ -25,6 +31,8 @@ const initialData = {
 export default function Club() {
   const dispatch = useAppDispatch();
   const matchList = useAppSelector(selectMatchList);
+  const error = useAppSelector(selectError);
+  const status = useAppSelector(selectstatus);
 
   const [dataList, setDataList] = useState<any>([]);
   const [clubData, setClubData] = useState(initialData);
@@ -34,6 +42,9 @@ export default function Club() {
     dispatch(getMatchAsync());
   }, []);
 
+  useEffect(() => {
+    toast.error(error);
+  }, [error]);
   useEffect(() => {
     if (!matchList) return;
     const clubCategory = mapbyClubname(matchList);
@@ -74,6 +85,7 @@ export default function Club() {
               <img
                 src="https://2.bp.blogspot.com/-3-ZCGwpHf2E/T2ndazKevtI/AAAAAAAAAv8/LCJmK13t48c/s1600/Manchester+United.png"
                 className="image"
+                alt="club_icon"
               />
               <span className="title" onClick={(e) => handleClick(value)}>
                 {value.club}

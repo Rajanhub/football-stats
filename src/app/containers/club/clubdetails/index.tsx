@@ -10,7 +10,7 @@ export default function ClubDetail({ data }: Props) {
       <div className="left">
         <img
           src="https://2.bp.blogspot.com/-3-ZCGwpHf2E/T2ndazKevtI/AAAAAAAAAv8/LCJmK13t48c/s1600/Manchester+United.png"
-          alt="clun_image"
+          alt="club_image"
         />
         <div className="club_name">{data.club}</div>
       </div>

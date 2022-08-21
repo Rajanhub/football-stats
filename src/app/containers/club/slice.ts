@@ -49,6 +49,6 @@ export const matchSlice = createSlice({
 export const {} = matchSlice.actions;
 export const selectMatchList = (state: RootState) => state.match.matchList;
 export const selectstatus = (state: RootState) => state.match.status;
-export const selectError = (state: RootState) => state.match.status;
+export const selectError = (state: RootState) => state.match.error;
 
 export default matchSlice.reducer;
