@@ -1,51 +1,101 @@
 import Table from "app/components/Table";
-import { useAppDispatch } from "app/hooks";
-import React from "react";
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import React, { useState } from "react";
 import { useEffect } from "react";
-import { getMatchAsync } from "./slice";
+import { useSelector } from "react-redux";
+import { createData, mapbyClubname } from "./helper";
+import { getMatchAsync, selectMatchList } from "./slice";
+import { Match } from "./types";
 
 export default function Club() {
   const dispatch = useAppDispatch();
+  const matchList = useAppSelector(selectMatchList);
+  const [dataList, setDataList] = useState<any>([]);
+
   useEffect(() => {
-    //dispatch(getMatchAsync());
+    dispatch(getMatchAsync());
   }, []);
 
+  useEffect(() => {
+    if (!matchList) return;
+    const clubCategory = mapbyClubname(matchList);
+    const clubdata = [];
+    for (const [key, value] of Object.entries(clubCategory)) {
+      const clubStats = createData(key, value as Match[]);
+      clubdata.push(clubStats);
+    }
+    setDataList(clubdata.sort((a, b) => b.points - a.points));
+  }, [matchList]);
+
+  const handleClick = (data: any) => {
+    console.log(data);
+  };
   const data = React.useMemo(
-    () => [
-      {
-        col1: "Hello",
+    () => dataList,
 
-        col2: "World",
-      },
-
-      {
-        col1: "react-table",
-
-        col2: "rocks",
-      },
-
-      {
-        col1: "whatever",
-
-        col2: "you want",
-      },
-    ],
-
-    []
+    [dataList]
   );
 
   const columns = React.useMemo(
     () => [
       {
-        Header: "Column 1",
-
-        accessor: "col1", // accessor is the "key" in the data
+        Header: "Position",
+        id: "position",
+        accessor: (_: any, id: any) => {
+          return id + 1;
+        }, // accessor is the "key" in the data
       },
 
       {
-        Header: "Column 2",
-
-        accessor: "col2",
+        id: "club",
+        Header: "Club",
+        accessor: (value, id) => {
+          return (
+            <div className="club">
+              {/* //image */}
+              <span onClick={(e) => handleClick(value)}>{value.club}</span>
+            </div>
+          );
+        },
+      },
+      {
+        Header: "Played",
+        accessor: "played",
+      },
+      {
+        Header: "Won",
+        accessor: "won",
+      },
+      {
+        Header: "Drawn",
+        accessor: "drawn",
+      },
+      {
+        Header: "Lost",
+        accessor: "lost",
+      },
+      {
+        Header: "GF",
+        accessor: "gf",
+      },
+      {
+        Header: "GA",
+        accessor: "ga",
+      },
+      {
+        Header: "GD",
+        accessor: "gd",
+      },
+      {
+        Header: "Points",
+        accessor: "points",
+      },
+      {
+        id: "forms",
+        Header: "Forms",
+        accessor: (value: any, id: any) => {
+          return <div>kk</div>;
+        },
       },
     ],
 
