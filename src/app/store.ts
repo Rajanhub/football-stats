@@ -1,7 +1,9 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
-
+import matchReducer from "app/containers/club/slice";
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    match: matchReducer,
+  },
 });
 
 export type AppDispatch = typeof store.dispatch;
