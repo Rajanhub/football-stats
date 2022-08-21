@@ -1,3 +1,4 @@
+import Modal from "app/components/modal";
 import Table from "app/components/Table";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import React, { useState } from "react";
@@ -10,7 +11,9 @@ import { Match } from "./types";
 export default function Club() {
   const dispatch = useAppDispatch();
   const matchList = useAppSelector(selectMatchList);
+
   const [dataList, setDataList] = useState<any>([]);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   useEffect(() => {
     dispatch(getMatchAsync());
@@ -28,7 +31,7 @@ export default function Club() {
   }, [matchList]);
 
   const handleClick = (data: any) => {
-    console.log(data);
+    setIsOpen((isOpen) => !isOpen);
   };
   const data = React.useMemo(
     () => dataList,
@@ -103,6 +106,9 @@ export default function Club() {
   );
   return (
     <div>
+      <Modal open={isOpen} onClose={() => setIsOpen(false)}>
+        hello
+      </Modal>
       <Table data={data} columns={columns} />
     </div>
   );
